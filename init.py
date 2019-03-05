@@ -6,6 +6,7 @@ This is a temporary script file.
 """
 
 import pymysql as mysql
+import database.db as db
 
 def init():
     con = mysql.connect(host='localhost',
@@ -14,13 +15,17 @@ def init():
                         db='db',
                         charset='utf8mb4')
     try:
+        with con.cursor() as cursor:
+            cursor.execute('CREATE TABLE IF NOT EXISTS products (id int NOT NULL AUTO_INCREMENT PRIMARY KEY, name varchar(90) NOT NULL, weight decimal(5,2) NOT NULL, price decimal(7,2) NOT NULL)')
+        con.commit()
+        
         with con:
             cur = con.cursor()
-            cur.execute('SELECT COUNT(id) FROM produkty')
+            cur.execute('SELECT COUNT(id) FROM products')
             
             rows = cur.fetchone()[0]
             if rows == 0:
-                print("Brak wpisow")
+                db.prepareDatabase()
             else:
                 print("Liczba wpisow: "+str(rows))
         con.close()
