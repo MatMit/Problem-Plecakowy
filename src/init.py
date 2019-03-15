@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
-"""
-Spyder Editor
-
-This is a temporary script file.
-"""
 
 import pymysql as mysql
 import database.db as db
+#from product import product
+import mem
 
 def init():
+    CART_CAP = 5   # pojemnosc wozka
+    HM_CAP = 5     # ilosc wozkow
+    
+    
     con = mysql.connect(host='localhost',
                         user='root',
                         passwd='',
@@ -26,12 +27,10 @@ def init():
             rows = cur.fetchone()[0]
             if rows == 0:
                 db.prepareDatabase()
-            else:
-                print("Liczba wpisow: "+str(rows))
         con.close()
+        mem.genHM(CART_CAP, HM_CAP)
     except Exception as e:
-        print(str(e))
+        print("Init:"+str(e))
 
 if __name__ == "__main__":
     init()
-    
