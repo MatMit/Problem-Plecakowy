@@ -25,7 +25,9 @@ def getRandomProducts(CART_CAP, HM_CAP):
                     cur.execute(sql, (random.randint(1,10000),))
                     row = cur.fetchone()
                     temp.append(Product(row[0], row[1], row[2]))
+
                 HM.append(temp)
+
         return HM
     except Exception as e:
         print("GetProducts:"+str(e))
