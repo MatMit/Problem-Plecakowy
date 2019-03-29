@@ -9,7 +9,7 @@ import pymysql as mysql
 import random
 from product import Product
 
-def getRandomProducts(CART_CAP, HM_CAP):
+def getRandomProducts(CART_CAP, CART_MAX_WEIGHT ,HM_CAP):
     HM = []
     con = mysql.connect(host='localhost',
                         user='root',
@@ -21,11 +21,16 @@ def getRandomProducts(CART_CAP, HM_CAP):
         with con.cursor() as cur:
             for i in range(HM_CAP):
                 temp = []
+                weigth = 0
                 for j in range(CART_CAP):
-                    cur.execute(sql, (random.randint(1,10000),))
-                    row = cur.fetchone()
-                    temp.append(Product(row[0], row[1], row[2]))
-
+                    if weigth<= CART_MAX_WEIGHT:
+                        cur.execute(sql, (random.randint(1,10000),))
+                        row = cur.fetchone()
+                        temp.append(Product(row[0], row[1], row[2]))
+                        weigth = weigth + row[1]
+                    else:
+                        temp.append(None)
+                        
                 HM.append(temp)
 
         return HM

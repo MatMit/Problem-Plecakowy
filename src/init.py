@@ -6,9 +6,9 @@ import database.db as db
 import mem
 
 def init():
-    CART_CAP = 5   # pojemnosc wozka
+    CART_CAP = 10   # pojemnosc wozka
+    CART_MAX_WEIGHT = 250 # maksymalna waga wozka
     HM_CAP = 5     # ilosc wozkow
-    
     
     con = mysql.connect(host='localhost',
                         user='root',
@@ -28,7 +28,7 @@ def init():
             if rows == 0:
                 db.prepareDatabase()
         con.close()
-        mem.genHM(CART_CAP, HM_CAP)
+        mem.genHM(CART_CAP, CART_MAX_WEIGHT, HM_CAP)
     except Exception as e:
         print("Init:"+str(e))
 

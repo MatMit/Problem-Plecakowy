@@ -10,26 +10,26 @@ import random
 
 HM = []
 
-
-
-def genHM(CART_CAP, HM_CAP):
-    HM = getProducts.getRandomProducts(CART_CAP, HM_CAP)
-    sort(HM,CART_CAP, HM_CAP);
-    for y in HM:
-        for z in y:
-            print(z.weight)
-
+def genHM(CART_CAP, CART_MAX_WEIGHT, HM_CAP):
+    HM = getProducts.getRandomProducts(CART_CAP, CART_MAX_WEIGHT ,HM_CAP)
+    for i in range(len(HM)):
+        weight = 0
+        for j in range(len(HM[i])):
+            if HM[i][j] is not None:
+                weight = weight + HM[i][j].weight
+            print(str(i+1)+"."+str(j+1)+" "+str(HM[i][j]))
+        print('Waga: '+str(weight))
     R1 = round(random.uniform(0,1),2)
     HMCR = .7
     HMS = CART_CAP * HM_CAP
-    if R1 <= HMCR:
-        x = []
-        for i in range(0,CART_CAP):
-            x.append(HM[i][random.randint(0, HM_CAP-1)])
-        #print("Prod:"+str(x))
-        R3 = round(random.uniform(0,1),2)
-        PAR = .1
-        #if R3 < PAR:     # BW z zakresu [-3;3]
+    #if R1 <= HMCR:
+    #    x = []
+    #    for i in range(0,CART_CAP):
+    #        x.append(HM[i][random.randint(0, HM_CAP-1)])
+    #    #print("Prod:"+str(x))
+    #    R3 = round(random.uniform(0,1),2)
+    #    PAR = .1
+    #    #if R3 < PAR:     # BW z zakresu [-3;3]
                          # R4 [-1;1]   
 
 def sort(HM,CART_CAP, HM_CAP):
