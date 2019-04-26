@@ -12,6 +12,7 @@ HM = []
 
 def genHM(CART_CAP, CART_MAX_WEIGHT, HM_CAP):
     HM = getProducts.getRandomProducts(CART_CAP, CART_MAX_WEIGHT ,HM_CAP)
+    sort(HM,CART_CAP,HM_CAP) #sortowanie wózka po wadze
     for i in range(len(HM)):
         weight = 0
         for j in range(len(HM[i])):
@@ -22,11 +23,24 @@ def genHM(CART_CAP, CART_MAX_WEIGHT, HM_CAP):
     R1 = round(random.uniform(0,1),2)
     HMCR = .7
     HMS = CART_CAP * HM_CAP
-    #if R1 <= HMCR:
-    #    x = []
-    #    for i in range(0,CART_CAP):
-    #        x.append(HM[i][random.randint(0, HM_CAP-1)])
-    #    #print("Prod:"+str(x))
+
+
+    weight=0
+    if R1 <= HMCR:
+       print("---------------HMCR-------------------")
+       x = []
+       for i in range(0,CART_CAP):
+           l=random.randint(0, HM_CAP - 1)
+           if(weight<=CART_MAX_WEIGHT and HM[l][i]!=None):
+               weight = weight + HM[l][i].weight
+               x.append(HM[random.randint(0, HM_CAP - 1)][i])
+           else:
+               x.append(None)
+       print("Prod:"+str(x))
+       print("------------------------------------")
+       print("weight: "+str(weight))
+    else:
+        print("---------------R1-------------------")
     #    R3 = round(random.uniform(0,1),2)
     #    PAR = .1
     #    #if R3 < PAR:     # BW z zakresu [-3;3]
@@ -36,22 +50,18 @@ def sort(HM,CART_CAP, HM_CAP):
 
     col = 0
     row = 0
+    pcol=0
     temp = 0
-    for i in range(0,CART_CAP*HM_CAP):
-        row=0
-        for y in range(0,HM_CAP):
+    for x in range(0, HM_CAP):
+        for y in range(0,CART_CAP):
             col = 0
             for z in range(0,CART_CAP):
-                if not (col==0 and row==0):
-                    #print("previous")
-                    #print("row: "+str(prow)+" col: "+str(pcol)+" weight: "+str(HM[prow][pcol].weight))
-                    #print("Now")
-                    #print("row: " + str(row) + " col: " + str(col) + " weight: " + str(HM[row][col].weight))
-                    if HM[row][col].weight>HM[prow][pcol].weight:
-                        temp=HM[prow][pcol]
-                        HM[prow][pcol]=HM[row][col]
-                        HM[row][col]=temp
-                prow=row
+                if not (col==0):
+                    if not(HM[row][col]==None):
+                        if HM[row][col].weight>HM[row][pcol].weight:
+                            temp=HM[row][pcol]
+                            HM[row][pcol]=HM[row][col]
+                            HM[row][col]=temp
                 pcol=col
                 col+=1
-            row+=1
+        row+=1

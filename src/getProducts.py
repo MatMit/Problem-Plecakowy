@@ -24,7 +24,7 @@ def getRandomProducts(CART_CAP, CART_MAX_WEIGHT ,HM_CAP):
                 weigth = 0
                 for j in range(CART_CAP):
                     if weigth<= CART_MAX_WEIGHT:
-                        cur.execute(sql, (random.randint(1,10000),))
+                        cur.execute(sql, (random.randint(1,10000)))
                         row = cur.fetchone()
                         temp.append(Product(row[0], row[1], row[2]))
                         weigth = weigth + row[1]
