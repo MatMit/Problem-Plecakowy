@@ -32,7 +32,9 @@ def genHM(CART_CAP, CART_MAX_WEIGHT, HM_CAP):
         CARTS_value.append(price-(weight*weight_value))
 
     R1 = round(random.uniform(0,1),2)
+    R3 = round(random.uniform(0,1),2)
     HMCR = .7
+    PAR = .5
     HMS = CART_CAP * HM_CAP
 
     price=0
@@ -46,16 +48,34 @@ def genHM(CART_CAP, CART_MAX_WEIGHT, HM_CAP):
            if(weight<=CART_MAX_WEIGHT and HM[l][i]!=None):
                weight = weight + HM[l][i].weight
                price=price+HM[l][i].price
-               x.append(HM[random.randint(0, HM_CAP - 1)][i])
+               x.append(HM[l][i])
            else:
                x.append(None)
+       if R3 <= PAR:
+           print(x)
+           print("---------------PAR-------------------")
+           price=0
+           weight=0
+           newProduct = HM[0][0]
 
-        #-----------------------------------PAR-----------------------------------
-       #    R3 = round(random.uniform(0,1),2)
-       #    PAR = .1
-       #    #if R3 < PAR:     # BW z zakresu [-3;3]
-       # R4 [-1;1]
+           for i in range(len(x)): #zamiana produktów w wózku na inne produkty z pamięci HM
+               if x[i] is not None:
+                   for y in range(len(HM)):
+                       for z in range(len(HM[y])):
+                           if(HM[y][z]!=None):
+                               if(newProduct.weight > HM[y][z].weight):
+                                   newProduct = HM[y][z]
 
+                           
+                   for y in range(len(HM)):
+                       for z in range(len(HM[y])):
+                           if(HM[y][z]!=None):
+                               if(HM[y][z].weight < x[i].weight and  HM[y][z].weight > newProduct.weight):
+                                   newProduct = HM[y][z]
+                   x[i] = newProduct
+                   weight = weight + x[i].weight
+                   price=price+x[i].price
+               
     else:
         print("---------------R1-------------------")
         x=getProducts.getRandomProducts(CART_CAP,CART_MAX_WEIGHT,1);
