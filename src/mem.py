@@ -54,27 +54,44 @@ def genHM(CART_CAP, CART_MAX_WEIGHT, HM_CAP):
        if R3 <= PAR:
            print(x)
            print("---------------PAR-------------------")
-           price=0
-           weight=0
+           newWeight = 0
+           newPrice = 0
+           NewCart_value = 0
            newProduct = HM[0][0]
+           newVector = []
 
-           for i in range(len(x)): #zamiana produktów w wózku na inne produkty z pamięci HM
+           for i in range(len(x)): 
                if x[i] is not None:
-                   for y in range(len(HM)):
+                   for y in range(len(HM)): #szukanie produktu o najniższej wadze w pamięci HM
                        for z in range(len(HM[y])):
                            if(HM[y][z]!=None):
                                if(newProduct.weight > HM[y][z].weight):
                                    newProduct = HM[y][z]
 
-                           
-                   for y in range(len(HM)):
+                   
+                   for y in range(len(HM)) : #zamiana produktów w wózku na inne produkty z pamięci HM
                        for z in range(len(HM[y])):
                            if(HM[y][z]!=None):
                                if(HM[y][z].weight < x[i].weight and  HM[y][z].weight > newProduct.weight):
                                    newProduct = HM[y][z]
-                   x[i] = newProduct
-                   weight = weight + x[i].weight
-                   price=price+x[i].price
+                                   
+                   newVector.append(newProduct)
+
+           for i in range(len(newVector)):
+               newWeight = newWeight + newVector[i].weight
+               newPrice= newPrice + newVector[i].price
+           
+           print("New weight: " + str(newWeight))
+           print("New price: " + str(newPrice))
+           NewCart_value=newPrice-((newWeight-CART_MAX_WEIGHT)*10)
+           print("New Cart value: " + str(NewCart_value))
+           cart_value=price-((weight-CART_MAX_WEIGHT)*10)
+           print("Cart value: " + str(cart_value))
+           if(NewCart_value > cart_value):
+               weight = newWeight
+               price = newPrice
+               cart_value = NewCart_value
+               x = newVector.copy()
                
     else:
         print("---------------R1-------------------")
