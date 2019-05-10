@@ -7,6 +7,8 @@ Created on Fri Mar  8 12:57:32 2019
 
 import getProducts
 import random
+import numpy as np
+import matplotlib.pyplot as plt
 
 HM = []
 weight_value=10; #współczynnik wartości stosunku wagi maksymalnej do wagi rzeczywistej wózka
@@ -118,12 +120,17 @@ def genHM(CART_CAP, CART_MAX_WEIGHT, HM_CAP):
                 numer=i
     print("Najgorszy wózek: "+str(numer+1)+" jego wartość: "+str(worst))
 
+    xplot = [0,1];
+    yplot = [0,10]
+    plt.plot(xplot,yplot);
+    
     #zamiana wózka w przypadku gdy nowy jest lepszy od najgorszego
     if cart_value>worst:
         print("Nowy wózek jest lepszy od najgorszego")
         HM[numer]=x
     else:
         print("Nowy wózek jest gorszy od najgorszego")
+    
 
 
 
