@@ -21,7 +21,6 @@ def getRandomProducts(CART_CAP, CART_MAX_WEIGHT ,HM_CAP):
         with con.cursor() as cur:
             if HM_CAP==1:
                 weigth = 0
-                print("test")
                 for j in range(CART_CAP):
                     if weigth<= CART_MAX_WEIGHT:
                         cur.execute(sql, (random.randint(1,10000)))
