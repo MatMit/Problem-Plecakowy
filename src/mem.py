@@ -15,28 +15,27 @@ HMS = const.CART_CAP * const.HM_CAP
 
 def genHM():
     HM = getProducts.getRandomProducts(const.HM_CAP)
-
-    sort.sort(HM) #sortowanie wózka po wadze
-    CARTS_weight=[] #wagi poszczególnych wózków
-    CARTS_price=[] #wartość poszczególnych wózków
-    CARTS_value = [] #wartość wyznaczona przez wartość wózka i jego stosunku wagi do maksymalnej wagi wózka
-    for i in range(len(HM)):
-        weight = 0
-        price = 0
-        for j in range(len(HM[i])):
-            if HM[i][j] is not None:
-                weight = weight + HM[i][j].weight
-                price = price + HM[i][j].price
-        CARTS_weight.append(weight)
-        CARTS_price.append(price)
-        weight=weight-const.CART_MAX_WEIGHT
-        CARTS_value.append(price-(weight*WEIGHT_VALUE))
         
     iter = 1
     xplot = []
     yplot = []
-    while iter<=10:
+    while iter<=2000:
         xplot.append(iter)
+        sort.sort(HM) #sortowanie wózka po wadze
+        CARTS_weight=[] #wagi poszczególnych wózków
+        CARTS_price=[] #wartość poszczególnych wózków
+        CARTS_value = [] #wartość wyznaczona przez wartość wózka i jego stosunku wagi do maksymalnej wagi wózka
+        for i in range(len(HM)):
+            weight = 0
+            price = 0
+            for j in range(len(HM[i])):
+                if HM[i][j] is not None:
+                    weight = weight + HM[i][j].weight
+                    price = price + HM[i][j].price
+            CARTS_weight.append(weight)
+            CARTS_price.append(price)
+            weight=weight-const.CART_MAX_WEIGHT
+            CARTS_value.append(price-(weight*WEIGHT_VALUE))
         R1 = round(random.uniform(0,1),2)
         R3 = round(random.uniform(0,1),2)
         
@@ -113,7 +112,7 @@ def genHM():
         
         #zamiana wózka w przypadku gdy nowy jest lepszy od najgorszego
         if cartValue>worstValue:
-            print(str(iter) + ": Nowy wózek"+ str(cartValueFunc.cartValue(x))  +" jest lepszy od najgorszego "+ str(cartValueFunc.cartValue(HM[cartNum])))
+            print(str(iter) + ": Nowy wózek"+ str(cartValueFunc.cartValue(x))  +" jest lepszy od najgorszego "+ str(cartValueFunc.cartValue(HM[cartNum]))+" \r\nworst/new "+str(worstValue)+"/"+str(cartValue))
             HM[cartNum]=x
         #else:
             #print(str(iter) + ": Nowy wózek jest gorszy od najgorszego")
