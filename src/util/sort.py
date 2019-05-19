@@ -11,11 +11,12 @@ def sort(HM):
             col = 0
             for z in range(0,const.CART_CAP):
                 if not (col==0):
-                    if not(HM[row][col]==None):
-                        if HM[row][col].weight>HM[row][pcol].weight:
-                            temp=HM[row][pcol]
-                            HM[row][pcol]=HM[row][col]
-                            HM[row][col]=temp
+                    if not(HM[row][col] is None):
+                        if not (HM[row][pcol] is None):
+                            if HM[row][col].weight>HM[row][pcol].weight:
+                                temp=HM[row][pcol]
+                                HM[row][pcol]=HM[row][col]
+                                HM[row][col]=temp
                 pcol=col
                 col+=1
         row+=1

@@ -19,7 +19,7 @@ def genHM():
     iter = 1
     xplot = []
     yplot = []
-    while iter<=20000:
+    while iter<=1000:
         xplot.append(iter)
         sort.sort(HM) #sortowanie wózka po wadze
         CARTS_weight=[] #wagi poszczególnych wózków
@@ -130,7 +130,7 @@ def genHM():
         
         #zamiana wózka w przypadku gdy nowy jest lepszy od najgorszego
         if cartValue>worstValue:
-            print(str(iter) + ": Nowy wózek"+ str(cartValueFunc.cartValue(x))  +" jest lepszy od najgorszego "+ str(cartValueFunc.cartValue(HM[cartNum]))+" \r\nworst/new "+str(worstValue)+"/"+str(cartValue))
+            print(str(iter) + ": Nowy wózek "+ str(cartValueFunc.cartValue(x))  +" jest lepszy od najgorszego "+ str(cartValueFunc.cartValue(HM[cartNum]))+" \r\nworst/new "+str(worstValue)+"/"+str(cartValue))
             HM[cartNum]=x
         #else:
             #print(str(iter) + ": Nowy wózek jest gorszy od najgorszego")
@@ -138,6 +138,9 @@ def genHM():
         iter=iter+1
     print("x: "+str(len(xplot))+"\r\ny:"+str(len(yplot)))
     drawGraph(xplot,yplot)
+    for i in range(len(CARTS_value)):
+        print(str(CARTS_value[i]))
+
     
 
 def calcCartValue(price, weight):
@@ -149,3 +152,4 @@ def drawGraph(x,y):
     plt.ylabel('Wartosc')
     plt.title('Wartosc najgorszego wozka po iteracjach')
     plt.plot(x,y,'bo')
+    plt.show()
