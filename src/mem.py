@@ -35,7 +35,10 @@ def genHM(CART_CAP, CART_MAX_WEIGHT, HM_CAP):
         
         
     iter = 1
+    xplot = []
+    yplot = []
     while iter<=2000:
+        xplot.append(iter)
         R1 = round(random.uniform(0,1),2)
         R3 = round(random.uniform(0,1),2)   # Nie powinno byc R2?
         HMCR = .7
@@ -132,18 +135,17 @@ def genHM(CART_CAP, CART_MAX_WEIGHT, HM_CAP):
         iter=iter+1
     
 
-def cartValue(price, weight, max_weight):
-    return price - (abs(weight-max_weight)*10)  # nie lepiej zrobic wartosc bezwzgledna? bo jezeli waga jest mniejsza od maksymalnej wagi, to dostawalby dodatkowe punkty za to
+def cartValue(price, weight, max_weight):       # chcialem przepisac obliczanie do odzielnej funkcji, zeby w jednym miejscu sie wzor zmienialo
+    return price - (weight-max_weight)*10  # nie lepiej zrobic wartosc bezwzgledna? bo jezeli waga jest mniejsza od maksymalnej wagi, to dostawalby dodatkowe punkty za to
     
 
-def wykres(x,y):
+def rysujWykres(x,y):
     plt.xlabel('Iteracja')
     plt.ylabel('Wartosc')
     plt.title('Wartosc najgorszego wozka po iteracjach')
     plt.plot(x,y,'bo')
 
 def sort(HM,CART_CAP, HM_CAP):
-
     col = 0
     row = 0
     pcol=0
