@@ -55,41 +55,59 @@ def genHM():
                    x.append(None)
            if R3 <= PAR:                                                            # Improwizacja PAR?
                #print("---------------PAR-------------------")
-               newWeight = 0
-               newPrice = 0
-               newCartValue = 0
-               newProduct = HM[0][0]
-               newVector = []
-    
-               for i in range(len(x)): 
-                   if x[i] is not None:
-                       for y in range(len(HM)): #szukanie produktu o najniższej wadze w pamięci HM
-                           for z in range(len(HM[y])):
-                               if(HM[y][z]!=None):
-                                   if(newProduct.weight > HM[y][z].weight):
-                                       newProduct = HM[y][z]
-    
-                       
-                       for y in range(len(HM)) : #zamiana produktów w wózku na inne produkty z pamięci HM
-                           for z in range(len(HM[y])):
-                               if(HM[y][z]!=None):
-                                   if(HM[y][z].weight < x[i].weight and  HM[y][z].weight > newProduct.weight):
-                                       newProduct = HM[y][z]
-                                       
-                       newVector.append(newProduct)
-    
-               for i in range(len(newVector)):
-                   newWeight = newWeight + newVector[i].weight
-                   newPrice= newPrice + newVector[i].price
-               
-               newCartValue = calcCartValue(newPrice, newWeight)
-               cartValue=calcCartValue(price,weight)
-               if(newCartValue > cartValue):    # nowy wozek lepszy od gorszego?
-                   weight = newWeight
-                   price = newPrice
-                   cartValue = newCartValue
-                   x = newVector.copy()
+               price = 0
+               weight = 0
+               oldPrice = 0
+               oldWeight = 0
+               oldCart_value = 0
+               lowWeightProduct = HM[0][0]
+               randomProductIndex = random.randint(0, const.CART_CAP - 1)
+               randomProduct = x[randomProductIndex]
+               while randomProduct == None: #jesli wylosowałem produkt None, to szukam innego losowego produktu
+                   randomProductIndex = random.randint(0, const.CART_CAP - 1)
+                   randomProduct = x[randomProductIndex]
                    
+    
+               for y in range(len(HM)): #szukanie produktu o najniższej wadze w pamięci HM
+                   for z in range(len(HM[y])):
+                       if(HM[y][z]!=None):
+                           if(lowWeightProduct.weight > HM[y][z].weight):
+                               lowWeightProduct = HM[y][z]
+
+               for y in range(len(HM)): #szukanie produktu o trochę niższej wadze niż wylosowany produkt z koszyka
+                   for z in range(len(HM[y])):
+                       if(HM[y][z]!=None):
+                           if(HM[y][z].weight < randomProduct.weight and  HM[y][z].weight > lowWeightProduct.weight):
+                               lowWeightProduct = HM[y][z]
+                               
+               oldProduct = x[randomProductIndex]
+
+               for i in range(0,const.CART_CAP):
+                   if x[i] is not None:
+                       oldWeight = oldWeight + x[i].weight
+                       oldPrice = oldPrice + x[i].price
+
+               oldCart_value=calcCartValue(oldPrice,oldWeight)
+               x[randomProductIndex] = lowWeightProduct
+               price = 0
+               weight = 0
+
+               for i in range(0,const.CART_CAP):
+                   if x[i] is not None:
+                       weight = weight + x[i].weight
+                       price = price + x[i].price
+               cart_value=calcCartValue(price,weight)
+
+               if cart_value < oldCart_value:
+                   x[randomProductIndex] = oldProduct
+                   price = oldPrice
+                   weight = oldWeight
+                   cart_value = oldCart_value
+
+
+                   
+
+          
         else:                                                                       # Improwizacja losowa?
             #print("---------------Improwizacja losowa-------------------")
             x=getProducts.getRandomProducts(1)
