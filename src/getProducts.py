@@ -1,15 +1,10 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Mar  8 12:44:54 2019
-
-@author: Student
-"""
+import init as const
+from product import Product
 
 import pymysql as mysql
 import random
-from product import Product
 
-def getRandomProducts(CART_CAP, CART_MAX_WEIGHT ,HM_CAP):
+def getRandomProducts(amount):
     HM = []
     con = mysql.connect(host='localhost',
                         user='root',
@@ -19,10 +14,10 @@ def getRandomProducts(CART_CAP, CART_MAX_WEIGHT ,HM_CAP):
     try:
         sql = "SELECT id, weight, price FROM products WHERE id = %s"
         with con.cursor() as cur:
-            if HM_CAP==1:
+            if amount==1:
                 weigth = 0
-                for j in range(CART_CAP):
-                    if weigth<= CART_MAX_WEIGHT:
+                for j in range(const.CART_CAP):
+                    if weigth<= const.CART_MAX_WEIGHT:
                         cur.execute(sql, (random.randint(1,10000)))
                         row = cur.fetchone()
                         HM.append(Product(row[0], row[1], row[2]))
@@ -31,11 +26,11 @@ def getRandomProducts(CART_CAP, CART_MAX_WEIGHT ,HM_CAP):
                         HM.append(None)
 
             else:
-                for i in range(HM_CAP):
+                for i in range(amount):
                     temp = []
                     weigth = 0
-                    for j in range(CART_CAP):
-                        if weigth<= CART_MAX_WEIGHT:
+                    for j in range(const.CART_CAP):
+                        if weigth<= const.CART_MAX_WEIGHT:
                             cur.execute(sql, (random.randint(1,10000)))
                             row = cur.fetchone()
                             temp.append(Product(row[0], row[1], row[2]))
@@ -48,4 +43,3 @@ def getRandomProducts(CART_CAP, CART_MAX_WEIGHT ,HM_CAP):
         return HM
     except Exception as e:
         print("GetProducts:"+str(e))
-    
