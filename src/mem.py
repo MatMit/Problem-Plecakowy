@@ -19,7 +19,7 @@ def genHM():
     iter = 1
     xplot = []
     yplot = []
-    while iter<=2000:
+    while iter<=20000:
         xplot.append(iter)
         sort.sort(HM) #sortowanie wózka po wadze
         CARTS_weight=[] #wagi poszczególnych wózków
@@ -46,7 +46,7 @@ def genHM():
         if R1 <= HMCR:                                                              # Improwizacja HMCR?
            #print("---------------HMCR-------------------")
            for i in range(0,const.CART_CAP):    #
-               l=random.randint(0, const.HM_CAP - 1)
+               l=random.randint(0, const.HM_CAP-1)
                if(weight<=const.CART_MAX_WEIGHT and HM[l][i]!=None):
                    weight = weight + HM[l][i].weight
                    price=price+HM[l][i].price

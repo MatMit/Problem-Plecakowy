@@ -1,6 +1,5 @@
 import init as const
 
-
 ## Sortowanie wózka po wagach
 def sort(HM):
     col = 0
