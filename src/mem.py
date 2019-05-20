@@ -20,7 +20,7 @@ def genHM():
     iter = 1
     xplot = []
     yplot = []
-    while iter<=20000:
+    while iter<=3000:
         sort.sort(HM) #sortowanie wózka po wadze
         for i in range(0,len(HM)):
             weight = 0
@@ -140,8 +140,7 @@ def genHM():
         iter=iter+1
     print("x: "+str(len(xplot))+"\r\ny:"+str(len(yplot)))
     drawGraph(xplot,yplot)
-    #for y in range(0,len(HM)):
-        #print(calcCartValue(HM[y]))
+    printAllCarts(HM)
 
     
 
@@ -149,6 +148,17 @@ def calcCartValue(price, weight):
     #return price - (weight-const.CART_MAX_WEIGHT)*WEIGHT_VALUE
     return round(Decimal(price * (1/Decimal(Decimal(Decimal(weight/2)-Decimal(const.CART_MAX_WEIGHT/2))**2+1))),2)
     
+def printAllCarts(HM):
+    for y in range(0,len(HM)):
+        print(cartValueFunc.cartValue(HM[y]))
+        cena=0
+        waga=0
+        for z in range(0,len(HM[y])):
+            if HM[y][z]!=None:
+                waga+=HM[y][z].weight
+                cena+=HM[y][z].price
+        print("cena: "+str(cena))
+        print("waga: "+str(waga))
 
 def drawGraph(x,y):
     plt.xlabel('Iteracja')

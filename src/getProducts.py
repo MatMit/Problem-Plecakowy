@@ -39,6 +39,7 @@ def getRandomProducts(amount):
                             temp.append(None)
 
                     HM.append(temp)
+            con.close()
 
         return HM
     except Exception as e:
