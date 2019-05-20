@@ -149,7 +149,7 @@ def calcCartValue(price, weight):
     
 def printAllCarts(HM):
     for y in range(0,len(HM)):
-        print(cartValueFunc.cartValue(HM[y]))
+        #print(cartValueFunc.cartValue(HM[y]))
         cena=0
         waga=0
         for z in range(0,len(HM[y])):
