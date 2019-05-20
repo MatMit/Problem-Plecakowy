@@ -9,3 +9,9 @@ def cartValue(cart):
             weight += cartObj.weight
     #print(str(value)+" "+str(weight)+" ="+str(mem.calcCartValue(value,weight)))
     return mem.calcCartValue(value,weight)
+
+def isCartInHM(cart, HM):
+    for i in range(len(HM)):
+        if cartValue(cart) == cartValue(HM[i]):
+            return True
+    return False
