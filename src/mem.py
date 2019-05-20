@@ -20,7 +20,7 @@ def genHM():
     iter = 1
     xplot = []
     yplot = []
-    while iter<=50000:
+    while iter<=const.ITER_NUM:
         sort.sort(HM) #sortowanie wózka po wadze
         for i in range(0,len(HM)):
             weight = 0
@@ -128,8 +128,8 @@ def genHM():
         #if cartValue>cartValueFunc.cartValue(HM[findLowCart.findLowestCartValue(HM)]):
         if cartValueFunc.cartValue(x)>cartValueFunc.cartValue(HM[findLowCart.findLowestCartValue(HM)]) and not cartValueFunc.isCartInHM(x, HM):
             print("-----------------------------------------------------------------------------------------")
-            for xx in range(0,len(HM)):
-                print(cartValueFunc.cartValue(HM[xx]))
+            for i in range(0,len(HM)):
+                print(cartValueFunc.cartValue(HM[i]))
             print(String+" "+str(iter) + ": Nowy wózek "+ str(cartValueFunc.cartValue(x))  +" jest lepszy od najgorszego "+ str(cartValueFunc.cartValue(HM[findLowCart.findLowestCartValue(HM)]))+" \r\nworst/new "+str(cartValueFunc.cartValue(HM[findLowCart.findLowestCartValue(HM)]))+"/"+str(cartValue))
             HM[findLowCart.findLowestCartValue(HM)]=x
             for xx in range(0,len(HM)):
@@ -142,8 +142,6 @@ def genHM():
     print("x: "+str(len(xplot))+"\r\ny:"+str(len(yplot)))
     drawGraph(xplot,yplot)
     printAllCarts(HM)
-
-    
 
 def calcCartValue(price, weight):
     #return price - (weight-const.CART_MAX_WEIGHT)*WEIGHT_VALUE
@@ -158,9 +156,11 @@ def printAllCarts(HM):
             if HM[y][z]!=None:
                 waga+=HM[y][z].weight
                 cena+=HM[y][z].price
+        print(str(y)+"---------------")
         print("cena: "+str(cena))
         print("waga: "+str(waga))
         print("ilosc produktow: "+str(getNotNullProducts(HM[y])))
+        print("----------------")
         
 def getNotNullProducts(cart):
     i = 0
@@ -173,5 +173,5 @@ def drawGraph(x,y):
     plt.xlabel('Iteracja')
     plt.ylabel('Wartosc')
     plt.title('Wartosc najgorszego wozka po iteracjach')
-    plt.plot(x,y,'bo')
+    plt.plot(x,y,'b.')
     plt.show()

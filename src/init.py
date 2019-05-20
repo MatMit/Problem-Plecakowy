@@ -4,7 +4,8 @@ import mem
 # STAŁE 
 CART_CAP = 10   # pojemnosc wozka
 CART_MAX_WEIGHT = 250 # maksymalna waga wozka
-HM_CAP = 5     # ilosc wozkow
+HM_CAP = 20     # ilosc wozkow
+ITER_NUM = 10000
 def init():
     
     con = mysql.connect(host='localhost',
