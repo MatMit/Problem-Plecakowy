@@ -16,26 +16,19 @@ HMS = const.CART_CAP * const.HM_CAP
 
 def genHM():
     HM = getProducts.getRandomProducts(const.HM_CAP)
-        
+    String = ""
     iter = 1
     xplot = []
     yplot = []
     while iter<=20000:
-        xplot.append(iter)
         sort.sort(HM) #sortowanie wózka po wadze
-        #CARTS_weight=[] #wagi poszczególnych wózków
-        #CARTS_price=[] #wartość poszczególnych wózków
-        #CARTS_value = [] #wartość wyznaczona przez wartość wózka i jego stosunku wagi do maksymalnej wagi wózka
-        for i in range(len(HM)):
+        for i in range(0,len(HM)):
             weight = 0
             price = 0
-            for j in range(len(HM[i])):
+            for j in range(0,len(HM[i])):
                 if HM[i][j] is not None:
                     weight = weight + HM[i][j].weight
                     price = price + HM[i][j].price
-            #CARTS_weight.append(weight)
-            #CARTS_price.append(price)
-            #CARTS_value.append(calcCartValue(price,weight))
         R1 = round(random.uniform(0,1),2)
         R3 = round(random.uniform(0,1),2)
         
@@ -53,6 +46,7 @@ def genHM():
                    x.append(HM[l][i])
                else:
                    x.append(None)
+           String = "HMCR"
            if R3 <= PAR:                                                            # Improwizacja PAR?
                #print("---------------PAR-------------------")
                price = 0
@@ -103,7 +97,7 @@ def genHM():
                    price = oldPrice
                    weight = oldWeight
                    cart_value = oldCart_value
-
+               String="PAR"
 
                    
 
@@ -115,10 +109,11 @@ def genHM():
                 if x[i] is not None:
                     weight=weight+x[i].weight
                     price = price + x[i].price
+            String="LOSOWE"
         cartValue = calcCartValue(price,weight)
         
         #szukanie najgorszego wózka:
-        cartNum=findLowCart.findLowestCartValue(HM)
+        #cartNum=findLowCart.findLowestCartValue(HM)
     
         #for i in range(0,const.HM_CAP):
             #if i==0:
@@ -130,17 +125,23 @@ def genHM():
         
         
         #zamiana wózka w przypadku gdy nowy jest lepszy od najgorszego
-        if cartValue>cartValueFunc.cartValue(HM[cartNum]):
-            print(str(iter) + ": Nowy wózek "+ str(cartValueFunc.cartValue(x))  +" jest lepszy od najgorszego "+ str(cartValueFunc.cartValue(HM[cartNum]))+" \r\nworst/new "+str(cartValueFunc.cartValue(HM[cartNum]))+"/"+str(cartValue))
-            HM[cartNum]=x
+        if cartValue>cartValueFunc.cartValue(HM[findLowCart.findLowestCartValue(HM)]):
+            print("-----------------------------------------------------------------------------------------")
+            for xx in range(0,len(HM)):
+                print(cartValueFunc.cartValue(HM[xx]))
+            print(String+" "+str(iter) + ": Nowy wózek "+ str(cartValueFunc.cartValue(x))  +" jest lepszy od najgorszego "+ str(cartValueFunc.cartValue(HM[findLowCart.findLowestCartValue(HM)]))+" \r\nworst/new "+str(cartValueFunc.cartValue(HM[findLowCart.findLowestCartValue(HM)]))+"/"+str(cartValue))
+            HM[findLowCart.findLowestCartValue(HM)]=x
+            for xx in range(0,len(HM)):
+                print(cartValueFunc.cartValue(HM[xx]))
         #else:
             #print(str(iter) + ": Nowy wózek jest gorszy od najgorszego")
+        xplot.append(iter)
         yplot.append(cartValueFunc.cartValue(HM[findLowCart.findLowestCartValue(HM)]))
         iter=iter+1
     print("x: "+str(len(xplot))+"\r\ny:"+str(len(yplot)))
     drawGraph(xplot,yplot)
-    #for i in range(len(CARTS_value)):
-        #print(str(CARTS_value[i]))
+    #for y in range(0,len(HM)):
+        #print(calcCartValue(HM[y]))
 
     
 
