@@ -7,6 +7,7 @@ import util.cartValue as cartValueFunc
 import random
 import numpy as np
 import matplotlib.pyplot as plt
+from decimal import Decimal
 
 WEIGHT_VALUE=10; #współczynnik wartości stosunku wagi maksymalnej do wagi rzeczywistej wózka
 HMCR = .7
@@ -19,12 +20,12 @@ def genHM():
     iter = 1
     xplot = []
     yplot = []
-    while iter<=1000:
+    while iter<=20000:
         xplot.append(iter)
         sort.sort(HM) #sortowanie wózka po wadze
-        CARTS_weight=[] #wagi poszczególnych wózków
-        CARTS_price=[] #wartość poszczególnych wózków
-        CARTS_value = [] #wartość wyznaczona przez wartość wózka i jego stosunku wagi do maksymalnej wagi wózka
+        #CARTS_weight=[] #wagi poszczególnych wózków
+        #CARTS_price=[] #wartość poszczególnych wózków
+        #CARTS_value = [] #wartość wyznaczona przez wartość wózka i jego stosunku wagi do maksymalnej wagi wózka
         for i in range(len(HM)):
             weight = 0
             price = 0
@@ -32,10 +33,9 @@ def genHM():
                 if HM[i][j] is not None:
                     weight = weight + HM[i][j].weight
                     price = price + HM[i][j].price
-            CARTS_weight.append(weight)
-            CARTS_price.append(price)
-            weight=weight-const.CART_MAX_WEIGHT
-            CARTS_value.append(price-(weight*WEIGHT_VALUE))
+            #CARTS_weight.append(weight)
+            #CARTS_price.append(price)
+            #CARTS_value.append(calcCartValue(price,weight))
         R1 = round(random.uniform(0,1),2)
         R3 = round(random.uniform(0,1),2)
         
@@ -118,19 +118,20 @@ def genHM():
         cartValue = calcCartValue(price,weight)
         
         #szukanie najgorszego wózka:
-        cartNum=0;
+        cartNum=findLowCart.findLowestCartValue(HM)
     
-        for i in range(0,const.HM_CAP):
-            if i==0:
-                worstValue=CARTS_value[i]
-            else:
-                if worstValue>CARTS_value[i]:
-                    worstValue=CARTS_value[i]
-                    cartNum=i
+        #for i in range(0,const.HM_CAP):
+            #if i==0:
+                #worstValue=CARTS_value[i]
+            #else:
+                #if worstValue>CARTS_value[i]:
+                    #worstValue=CARTS_value[i]
+                    #cartNum=i
+        
         
         #zamiana wózka w przypadku gdy nowy jest lepszy od najgorszego
-        if cartValue>worstValue:
-            print(str(iter) + ": Nowy wózek "+ str(cartValueFunc.cartValue(x))  +" jest lepszy od najgorszego "+ str(cartValueFunc.cartValue(HM[cartNum]))+" \r\nworst/new "+str(worstValue)+"/"+str(cartValue))
+        if cartValue>cartValueFunc.cartValue(HM[cartNum]):
+            print(str(iter) + ": Nowy wózek "+ str(cartValueFunc.cartValue(x))  +" jest lepszy od najgorszego "+ str(cartValueFunc.cartValue(HM[cartNum]))+" \r\nworst/new "+str(cartValueFunc.cartValue(HM[cartNum]))+"/"+str(cartValue))
             HM[cartNum]=x
         #else:
             #print(str(iter) + ": Nowy wózek jest gorszy od najgorszego")
@@ -138,13 +139,14 @@ def genHM():
         iter=iter+1
     print("x: "+str(len(xplot))+"\r\ny:"+str(len(yplot)))
     drawGraph(xplot,yplot)
-    for i in range(len(CARTS_value)):
-        print(str(CARTS_value[i]))
+    #for i in range(len(CARTS_value)):
+        #print(str(CARTS_value[i]))
 
     
 
 def calcCartValue(price, weight):
-    return price - (weight-const.CART_MAX_WEIGHT)*WEIGHT_VALUE
+    #return price - (weight-const.CART_MAX_WEIGHT)*WEIGHT_VALUE
+    return round(Decimal(price * (1/Decimal(Decimal(Decimal(weight/2)-Decimal(const.CART_MAX_WEIGHT/2))**2+1))),2)
     
 
 def drawGraph(x,y):
